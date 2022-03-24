@@ -16,6 +16,7 @@ satu <- rep(1, 10)
 X <- matrix(c(satu, Bobot_Badan), ncol=2, byrow=FALSE)
 X
 Y <- matrix(Konsumsi_Pakan, ncol=1)
+Y
 
 # Transpose matriks
 t(X)
@@ -24,6 +25,8 @@ t(Y)
 # Perkalian matriks menggunakan '%*%'
 t(Y) %*% Y # Jumlah kuadrat 
 Y %*% t(Y) # Perhatikan, urutan berarti
+
+t(X) %*% X 
 
 # Model regresi pada lambang matriks Y = X*beta
 # Cek terlebih dahulu apakah X'X non-singular
@@ -47,4 +50,13 @@ JKG <- t(Y - Y_hat) %*% (Y - Y_hat)
 JKT - (JKR+JKG)
 
 c('(JKT)'=JKT, '=  (JKR) '=JKR, '+  (JKG) '=JKG)
+
+# Kuadrat tengah
+KTT <- JKT/(n-1)
+KTR <- JKR/(2-1)
+KTG <- JKG/(n-2)
+
+# Nilai-F
+nilai.F <- KTR/KTG
+
 # anova(m)
