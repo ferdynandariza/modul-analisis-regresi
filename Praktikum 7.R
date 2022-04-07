@@ -56,7 +56,7 @@ pcor(cbind(Y,X1,X2))$estimate
 
 # Standar error dugaan
 sqrt(sum((model$residuals)^2)/7)
-sd(model$residuals) # Beda
+summary(model)$sigma
 
 
 # Contoh 2 ----------------------------------------
@@ -87,4 +87,4 @@ pcor(cbind(Y_,X_1,X_2))$estimate
 
 # Standar error dugaan
 sqrt(sum((model2$residuals)^2)/7)
-sd(model2$residuals) # Beda
+summary(model2)$sigma
