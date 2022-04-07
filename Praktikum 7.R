@@ -80,8 +80,7 @@ summary(model2)$cov
 cov(cbind(Y_,X_1,X_2))
 
 # Korelasi
-r <- cor(cbind(Y_,X_1,X_2))
-r
+cor(cbind(Y_,X_1,X_2))
 
 # Korelasi Parsial
 pcor(cbind(Y_,X_1,X_2))$estimate
