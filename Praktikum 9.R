@@ -8,7 +8,7 @@ head(mtcars)
 str(mtcars)
 
 # Matriks scatterplot
-pairs(mtcars, pch=19, cex=.5, col='blue', asp=1, lower.panel=NULL,
+pairs(mtcars, pch=19, cex=.5, col='blue', lower.panel=NULL,
       main='Motor Trend Cars Road Test')
 
 # Sebelum melakukan regresi stepwise, data harus dijadikan dalam 
@@ -24,28 +24,33 @@ all <- lm(mpg ~ ., data=mtcars)
 
 # Melakukan regresi forward stepwise 
 forward <- step(intercept_only, direction='forward', 
-                scope=formula(all), trace=F)
+                scope=formula(all), trace=T)
 # Hasil prosedur regresi forward stepwise
 forward$anova
 # Model akhir regresi stepwise forward
 forward$coefficients
+# Uji parsial dan simultan dari summary
+summary(forward)
 
 # Melakukan regresi backward stepwise 
 backward <- step(all, direction='backward', scope=formula(all), 
-                 trace=F)
+                 trace=T)
 # Hasil prosedur regresi backward stepwise
 backward$anova
 # Model akhir regresi stepwise backward
 backward$coefficients
+# Uji parsial dan simultan dari summary
+summary(backward)
 
 # Melakukan regresi forward-backward stepwise 
 both <- step(intercept_only, direction='both', scope=formula(all), 
-             trace=F)
+             trace=T)
 # Hasil prosedur regresi forward-backward stepwise
 both$anova
 # Model akhir regresi stepwise forward-backward
 both$coefficients
-summary(backward)
+# Uji parsial dan simultan dari summary
+summary(both)
 
 # Dengan data contoh
 td_data <- data.frame(
@@ -63,7 +68,7 @@ td_data <- data.frame(
             1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0) # Merokok (ya/tdk)
 )
 
-td_data
+str(td_data)
 pairs(td_data, pch=19, col='red', main='Data Tekanan Darah')
 
 intersep_aja <- lm(tdr ~ 1, data=td_data)
@@ -71,14 +76,20 @@ semua <- lm(tdr ~ ., data=td_data)
 
 forward1 <- step(intersep_aja, direction='forward', 
                 scope=formula(semua), trace=T)
+summary(forward1)
 backward1 <- step(semua, direction='backward', 
                  scope=formula(intersep_aja), trace=T)
+summary(backward1)
+
+
+
 
 
 # Regresi Polinomial ---------------------------
 
 # Membangkitkan data polinomial
 
+# Y = b0 + b1X + b2X^2 + b3X^3 + e
 # Membangkitkan nilai X dengan membuat barisan
 X <- seq(10, 20, len=100) # Barisan sepanjang 100, antara 10 sampai 20
 # Menentukan nilai beta
@@ -87,11 +98,13 @@ beta1 <- -4.5 # Ini hanya contoh, gak harus segini
 beta2 <- 0.5  # tentukan sesuai kebutuhan
 beta3 <- 0.02 # |
 # Membangkitkan galat
-set.seed(42)
+set.seed(42) # Mengatur random seed, supaya jika diulang hasilnya sama
 galat <- rnorm(100, 0, 10)
+
 # Menentukan nilai Y berdasarkan persamaan
-# Y = b0 + b1X + b2X^2 + b3X^3
 Y <- beta0 + beta1*X + beta2*X^2 + beta3*X^3 + galat
+# Hasil data bangkitan
+plot(X, Y, pch=16)
 
 # Membuat model
 
@@ -110,5 +123,5 @@ summary(polinom1)
 
 # Plot dan garis dugaan
 plot(X,Y, pch=19, col='#aaaaaa', main='Model Polinomial')
-lines(X,fitted(polinom), lwd=4, lty=2, col='blue')
+lines(X,fitted(polinom), lwd=4, lty=1, col='blue')
 lines(X,fitted(polinom1), lwd=4, lty=2, col='red')
