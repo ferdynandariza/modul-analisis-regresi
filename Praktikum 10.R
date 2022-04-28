@@ -20,12 +20,16 @@ X_dummy <- ifelse(X2 == 'A', 0, 1)
 mod <- lm(Y~X1+X_dummy)
 summary(mod)
 
+# pers utk A: Y = 36.98 - 0.02X1
+# pers utk B: Y = 36.98 - 0.02X1 + 15.00 = 51.98 - 0.02X1
+
 # Plot Data
 plot(Y~X1, col=ifelse(X2=='A', 'blue', 'red'), pch=16, 
      main='Regresi dengan Dummy Variable', 
      xlab='Umur Mesin Bubut', ylab='Kecepatan Putaran')
 
 # Garis Regresi, karena ada 2 kategori maka garisnya juga ada 2
+# abline(intersep, slope)
 abline(mod$coef[1], mod$coef[2]) # Untuk Alat A
 abline(mod$coef[1]+mod$coef[3], mod$coef[2]) # Untuk Alat B
 
@@ -49,7 +53,7 @@ X_ <- seq(2, 10, length=90)
 Y_ <- 10 + 2*X_ + 30*D1 + 15*D2 + rnorm(90)
 
 # Contoh dengan 3 kategori ---- 
-df <- data.frame('X'=X_, 'Y'=Y_, 'cat'=cat)
+df <- data.frame('Y'=Y_, 'X'=X_, 'cat'=cat)
 df
 
 # Buat dummy variable, karena 3 kategori, maka dummy variablenya ada 2
@@ -59,6 +63,10 @@ katC <- ifelse(df$cat=='C', 1, 0)
 mdl <- lm(df$Y~df$X+katB+katC)
 summary(mdl)
 
+# pers utk A: Y = 39.82 + 2.09X
+# pers utk B: Y = 39.82 + 2.09X - 15.58
+# pers utk C: Y = 39.82 + 2.09X - 30.92
+
 mdl1 <- lm(Y~X+cat, data=df)
 summary(mdl1)
 
@@ -67,5 +75,4 @@ wrn <- ifelse(df$cat=='A', 'orange', ifelse(df$cat=='B', 'navy', 'gray'))
 plot(Y~X, data=df, col=wrn, pch=16)
 abline(mdl$coef[1], mdl$coef[2])
 abline(mdl$coef[1]+mdl$coef[3], mdl$coef[2])
-abline(mdl$coef[1]+mdl$coef[3]+mdl$coef[4], mdl$coef[2])
-
+abline(mdl$coef[1]+mdl$coef[4], mdl$coef[2])
